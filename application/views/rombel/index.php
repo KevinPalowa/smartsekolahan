@@ -27,7 +27,7 @@
                         <tr>
                             <th scope="row"><?= $i ?></th>
                             <td><?= $m['nama'] ?></td>
-                            <td><?= $m['wk_id'] ?></td>
+                            <td><?= $m['nama_guru'] ?></td>
                             <td><?= $m['max'] ?></td>
                             <td><a href="<?= base_url('rombel/edit/' . $m['id']) ?>" class="badge badge-success mr-3">Edit</a><a href="<?= base_url('rombel/delete/' . $m['id']) ?>" class="badge badge-danger tombol-hapus">Delete</a></td>
                         </tr>
