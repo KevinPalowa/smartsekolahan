@@ -8,6 +8,7 @@ class Siswa extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->model('Siswa_model', 'siswa');
     }
 
     public function index()
@@ -17,35 +18,13 @@ class Siswa extends CI_Controller
             'email' => $this->session->userdata('email')
         ])->row_array();
         $data['jurusan'] = $this->db->get('jurusan')->result_array();
-        $data['menu'] = $this->db->query('SELECT siswa.id, `nama`,`nisn`,`alamat`,`jk`,`kelas_id`,`tempat_lahir`,`tanggal_lahir` FROM siswa')->result_array();
+        $data['menu'] = $this->siswa->withrombel();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('siswa/index', $data);
         $this->load->view('templates/footer');
-        // $this->form_validation->set_rules('nama', "Nama", 'required');
-        // $this->form_validation->set_rules('nis', "NIS", 'required');
-        // $this->form_validation->set_rules('alamat', "Alamat", 'required');
-        // $this->form_validation->set_rules('jk', "Jenis kelamin", 'required');
-        // $this->form_validation->set_rules('kelas', "Kelas", 'required');
-        // $this->form_validation->set_rules('jurusan', "Jurusan", 'required');
-        // $this->form_validation->set_rules('tempat_lahir', "Tempat lahir", 'required');
-        // $this->form_validation->set_rules('tanggal_lahir', "Tanggal lahir", 'required');
-        // if ($this->form_validation->run() == FALSE) {
-        // } else {
-        //     $nama = $this->input->post('nama');
-        //     $nis = $this->input->post('nis');
-        //     $alamat = $this->input->post('alamat');
-        //     $jk = $this->input->post('jk');
-        //     $kelas = $this->input->post('kelas');
-        //     $jurusan = $this->input->post('jurusan');
-        //     $tanggalLahir = $this->input->post('tanggal_lahir');
-        //     $tempatLahir = $this->input->post('tempat_lahir');
-        //     $this->db->insert('siswa', ['nama' => $nama, 'nis' => $nis, 'alamat' => $alamat, 'jk' => $jk, 'kelas' => $kelas, 'jurusan_id' => $jurusan, 'tanggal_lahir' => $tanggalLahir, 'tempat_lahir' => $tempatLahir]);
-        //     $this->session->set_flashdata('message', 'New siswa added');
-        //     redirect('siswa');
-        // }
     }
 
     public function add()
@@ -58,14 +37,8 @@ class Siswa extends CI_Controller
         $data['siswa'] = $this->db->get_where('siswa', [
             'id' => $siswaId
         ])->result_array();
-
+        $data['rombel'] = $this->db->get('rombel')->result_array();
         $this->form_validation->set_rules('nama', "Nama", 'required');
-        // $this->form_validation->set_rules('nisn', "NIS", 'required');
-        // $this->form_validation->set_rules('alamat', "Alamat", 'required');
-        // $this->form_validation->set_rules('jk', "Jenis kelamin", 'required');
-        // $this->form_validation->set_rules('kelas', "Kelas", 'required');
-        // $this->form_validation->set_rules('tempat_lahir', "Tempat lahir", 'required');
-        // $this->form_validation->set_rules('tanggal_lahir', "Tanggal lahir", 'required');
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
@@ -83,6 +56,8 @@ class Siswa extends CI_Controller
             $siswa['tanggal_lahir'] = $this->input->post('tanggal_lahir');
             $siswa['jk'] = $this->input->post('jk');
             $siswa['agama'] = $this->input->post('agama');
+            $siswa['kelas'] = $this->input->post('kelas');
+            $siswa['rombel_id'] = $this->input->post('rombel');
             $siswa['anak_ke'] = $this->input->post('anak_ke');
             $siswa['jumlah_saudara'] = $this->input->post('jumlah_saudara');
             $siswa['alamat'] = $this->input->post('alamat');
@@ -101,7 +76,6 @@ class Siswa extends CI_Controller
             $siswa['pekerjaan_ibu'] = $this->input->post('pekerjaan_ibu');
             $siswa['penghasilan_ayah'] = $this->input->post('penghasilan_ayah');
             $siswa['penghasilan_ibu'] = $this->input->post('penghasilan_ibu');
-
             $this->db->insert('siswa', $siswa);
             if ($this->db->affected_rows() > 0) {
                 redirect('siswa');
@@ -150,7 +124,7 @@ class Siswa extends CI_Controller
     public function delete()
     {
         $siswaId = $this->uri->segment(3);
-        $result = $this->db->delete('siswa', ['id' => $siswaId]);
+        $result = $this->siswa->siswa('delete',  $siswaId);
         if ($result) {
             $this->session->set_flashdata('message', $result);
             redirect('siswa');

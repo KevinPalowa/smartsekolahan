@@ -25,7 +25,7 @@
         <div class="form-row mb-3">
             <div class="col">
                 <label for="inputEmail">Kelas</label>
-                <select name="penghasilan_ayah" class="form-control">
+                <select name="kelas" class="form-control">
                     <option value="">-- Pilih Kelas --</option>
                     <option value="vii">VII</option>
                     <option value="vii">VIII</option>
@@ -35,9 +35,11 @@
 
             <div class="col">
                 <label for="inputEmail">Rombel</label>
-                <select name="penghasilan_ibu" class="form-control">
+                <select name="rombel" class="form-control">
                     <option value="">-- Pilih Rombel --</option>
-                    <option value="tidak diisi">Rombel</option>
+                    <?php foreach ($rombel as $r) : ?>
+                        <option value="<?= $r['id'] ?>"><?= $r['nama'] ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
