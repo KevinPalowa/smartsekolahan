@@ -7,4 +7,8 @@ class Rombel_model extends CI_Model
     {
         return $this->db->get('rombel')->result_array();
     }
+    public function count()
+    {
+        return $this->db->count_all('rombel');
+    }
 }

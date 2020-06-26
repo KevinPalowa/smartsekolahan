@@ -14,4 +14,8 @@ class Guru_model extends CI_Model
         }
         return $this->db->get('guru')->result_array();
     }
+    public function count()
+    {
+        return $this->db->count_all('guru');
+    }
 }

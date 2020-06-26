@@ -19,4 +19,9 @@ class Siswa_model extends CI_Model
     {
         return $this->db->query('SELECT siswa.id AS id_siswa,siswa.nama AS nama_siswa, rombel.nama AS nama_rombel,`nisn`,`alamat`,`jk`,`rombel_id`,`tempat_lahir`,`tanggal_lahir` FROM siswa INNER JOIN rombel ON rombel_id = rombel.id')->result_array();
     }
+
+    public function count()
+    {
+        return $this->db->count_all('siswa');
+    }
 }
