@@ -78,6 +78,7 @@ class Siswa extends CI_Controller
             $siswa['penghasilan_ibu'] = $this->input->post('penghasilan_ibu');
             $this->db->insert('siswa', $siswa);
             if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('message', 'Success insert siswa!');
                 redirect('siswa');
             }
         }
@@ -127,6 +128,7 @@ class Siswa extends CI_Controller
         $result = $this->siswa->siswa('delete',  $siswaId);
         if ($result) {
             $this->session->set_flashdata('message', $result);
+            $this->session->set_flashdata('message', 'Siswa deleted!');
             redirect('siswa');
         }
     }

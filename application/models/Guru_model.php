@@ -6,12 +6,12 @@ class Guru_model extends CI_Model
     public function guru($aksi = false, $id = false)
     {
         if ($aksi == 'detail') {
-            return $this->db->get_where('siswa', ['id' => $id])->row_array();
+            return $this->db->get_where('guru', ['id' => $id])->row_array();
         } elseif ($aksi == 'delete') {
-            return $this->db->delete('siswa', ['id' => $id]);
+            return $this->db->delete('guru', ['id' => $id]);
         } elseif ($aksi == 'insert') {
-            return $this->db->insert('siswa', $id);
+            return $this->db->insert('guru', $id);
         }
-        return $this->db->get('siswa')->result_array();
+        return $this->db->get('guru')->result_array();
     }
 }

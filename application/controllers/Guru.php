@@ -8,6 +8,7 @@ class Guru extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->model('Guru_model', 'guru');
     }
 
     public function index()
@@ -55,8 +56,19 @@ class Guru extends CI_Controller
             $guru['tanggal_masuk'] = $this->input->post('tanggal_masuk');
             $this->db->insert('guru', $guru);
             if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('message', 'New guru added');
                 redirect('guru');
             }
+        }
+    }
+
+    public function delete()
+    {
+        $guruId = $this->uri->segment(3);
+        $result = $this->guru->guru('delete',  $guruId);
+        if ($result) {
+            $this->session->set_flashdata('message', 'Guru deleted!');
+            redirect('guru');
         }
     }
 }
